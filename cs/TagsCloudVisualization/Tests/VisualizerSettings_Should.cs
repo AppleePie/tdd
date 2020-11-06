@@ -29,7 +29,7 @@ namespace TagsCloudVisualization.Tests
         }
 
         [Test]
-        public void ReadSettings_AfterSaveNewSettings_BeSaveSettings()
+        public void ReadSettings_AfterSaveNewSettings_BeSameSettings()
         {
             var settings = new VisualizerSettings();
             settings.SaveSettingsIntoConfig("Temp", 800, 850);
@@ -48,9 +48,8 @@ namespace TagsCloudVisualization.Tests
         [Test]
         public void SaveSettings_NonexistentDirectory_MakeDirectory()
         {
-            var settings = new VisualizerSettings();
-            settings.RootDirectory = Path.GetTempPath();
-            
+            var settings = new VisualizerSettings {RootDirectory = Path.GetTempPath()};
+
             const string workDir = "newDirectory";
             var pathToDir = Path.Combine(Path.Combine(settings.RootDirectory, workDir));
             DeleteDirectoryIfExists(pathToDir);
@@ -67,11 +66,11 @@ namespace TagsCloudVisualization.Tests
                     Directory.Delete(path);
             }
 
-            void ReturnToDefaultSettings()
+            static void ReturnToDefaultSettings()
             {
                 var oldSettings = new VisualizerSettings();
-                settings.RootDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                settings.SaveSettingsIntoConfig("TagClouds", 100, 100);
+                oldSettings.RootDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                oldSettings.SaveSettingsIntoConfig("TagClouds", 100, 100);
             }
         }
     }
